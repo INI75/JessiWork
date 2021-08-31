@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -9,7 +11,7 @@ class Edited extends StatefulWidget {
 }
 
 class _EditedState extends State<Edited> {
-  var _current = 0;
+  var _degree = 90;
   late PageController _controller;
 
   @override
@@ -26,6 +28,8 @@ class _EditedState extends State<Edited> {
 
   @override
   Widget build(BuildContext context) {
+    var file = ModalRoute.of(context)!.settings.arguments as File;
+
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.black),
@@ -33,20 +37,23 @@ class _EditedState extends State<Edited> {
         leading: Icon(Icons.cancel_presentation_outlined),
         actions: [
           Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: IconButton(
-                  onPressed: () => Navigator.pushNamed(context, '/done'),
-                  icon: Icon(Icons.done)))
+            padding: const EdgeInsets.only(right: 10),
+            child: IconButton(
+              onPressed: () => Navigator.pushNamed(context, '/done'),
+              icon: Icon(Icons.done),
+            ),
+          )
         ],
-        title: Text(
-          'Edit Photo',
-          style: TextStyle(color: Colors.black),
-        ),
+        title: Text('Edit Photo', style: TextStyle(color: Colors.black)),
       ),
-      body: Container(
-        color: Colors.black,
-        padding: EdgeInsets.all(10),
-        child: Image.asset('assets/certificate2.png'),
+      body: Transform.rotate(
+        angle: _degree * 0.0174533,
+        child: Container(
+          width: double.infinity,
+          color: Colors.black,
+          padding: EdgeInsets.all(10),
+          child: Image.file(file),
+        ),
       ),
       bottomNavigationBar: Container(
         color: Colors.black,
@@ -54,10 +61,17 @@ class _EditedState extends State<Edited> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Icon(
-              Icons.replay_outlined,
-              color: Colors.blueGrey,
-              size: 30,
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  _degree += 90;
+                });
+              },
+              icon: Icon(
+                Icons.replay_outlined,
+                color: Colors.blueGrey,
+                size: 30,
+              ),
             ),
             SizedBox(
               width: 10,

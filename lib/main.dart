@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:jessi/FirstPage.dart';
@@ -9,7 +10,10 @@ import 'package:jessi/done.dart';
 import 'package:jessi/edit.dart';
 import 'package:jessi/verification.dart';
 
-void main() {
+late List<CameraDescription> camera;
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  camera = await availableCameras();
   runApp(Home());
 }
 
